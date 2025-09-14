@@ -4,11 +4,18 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
+    outDir: 'dist',
+    sourcemap: false,
     rollupOptions: {
-      external: [],
-    },
+      onwarn: (warning, warn) => {
+        if (warning.code === 'MODULE_NOT_FOUND') {
+          return;
+        }
+        warn(warning);
+      }
+    }
   },
   optimizeDeps: {
-    exclude: [], 
+    exclude: ['ag-grid-community', 'ag-grid-react', 'react-select']
   }
 });
